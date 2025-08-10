@@ -1,46 +1,84 @@
 # RecipeApp
 
-RecipeApp is a small command‑line and web tool that demonstrates the core features of the food‑scanner project we’ve been developing. The goal of the project is to make it easier to cook at home by recognising which ingredients you have on hand, suggesting recipes that use those ingredients and helping you plan your shopping list and weekly meals.
+RecipeApp is a small command-line and web tool that demonstrates the core features of the food scanner project we’ve been developing. The goal of the project is to make it easier to cook at home by recognising which ingredients you have on hand, suggesting recipes that use those ingredients and helping you plan your shopping list and weekly meals.
 
 ## Features
 
-* **Ingredient input** – For now there is no image recognition component. Instead, the tool prompts you to enter the ingredients you have available, simulating the recognition step.
-* **Web interface** – A lightweight Flask web app (`web_app.py`) provides a simple HTML form to enter your ingredients and view recipe suggestions in your browser.
-* **Recipe suggestions** – The app compares your available ingredients against a small library of recipes and recommends dishes you can make. Each recipe lists the ingredients required.
-* **Shopping list generation** – Once you select a recipe, the tool identifies which ingredients you still need and presents a shopping list.
-* **Meal planning** – When you pick multiple recipes, the app can create a simple meal plan for the week, assigning one recipe per day.
+- **Ingredient input via form or scan** – You can either type the ingredients you have available or upload a photo of an ingredient list. The photo is processed using a local OCR engine (Tesseract via `pytesseract`) to extract the text, and the app normalises the words to match recipe ingredients.
+- **Web interface** – A lightweight Flask web app (`web_app.py`) provides HTML forms to enter your ingredients manually or upload a picture for scanning. The server then displays recipe suggestions in your browser.
+- **Recipe suggestions** – The app compares your available ingredients against a small library of recipes and recommends dishes you can make. Each recipe lists the required ingredients.
+- **Shopping list generation** – Once you select a recipe, the tool identifies which ingredients you still need and presents a shopping list.
+- **Meal planning** – When you pick multiple recipes, the app can create a simple meal plan for the week, assigning one recipe per day.
+
+## Installation
+
+1. Install Python dependencies with pip:
+
+```sh
+pip install -r requirements.txt
+```
+
+The `requirements.txt` now includes Flask, Pillow and pytesseract for the web interface and OCR support.
+
+2. Install Tesseract OCR on your system (only required for scanning photos):
+
+- **Ubuntu/Debian** – Use your package manager to install the engine and development headers:
+
+  ```sh
+  sudo apt install tesseract-ocr
+  sudo apt install libtesseract-dev
+  ```
+  These commands install Tesseract and its developer tools【200365460073750†L56-L62】.
+
+- **macOS** – Install via Homebrew or MacPorts:
+
+  ```sh
+  brew install tesseract
+  ```
+  or
+  ```sh
+  sudo port install tesseract
+  ```
+  according to the Tesseract documentation【200365460073750†L148-L173】.
+
+- **Windows** – Download the prebuilt installer (e.g., `tesseract‑ocr‑w64‑setup‑5.x.exe`) from the UB Mannheim repository【448535564386824†L342-L364】. Run the installer, accept the defaults and note the installation directory. After installation, add the installation path (e.g., `C:\Program Files\Tesseract‑OCR`) to your `PATH` environment variable【448535564386824†L448-L516】 so that the `tesseract` command is available system‑wide. You can verify the installation by opening a command prompt and running `tesseract --version`【448535564386824†L521-L526】.
+
+3. (Optional) If the `tesseract` binary is not on your PATH, set the path explicitly in Python by assigning `pytesseract.pytesseract.tesseract_cmd` to the full executable path (for example, `r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'` on Windows).
 
 ## Usage
 
-1. Install the dependencies (if any) listed in `requirements.txt` using `pip install -r requirements.txt`. This script only depends on Python’s standard library, so no external packages are required.
-2. Run the script:
+For command‑line use:
+
+1. Run the CLI script:
 
 ```sh
 python recipe_app.py
 ```
 
-3. Follow the on‑screen prompts to enter your available ingredients and select recipes. The program will display suggestions, missing ingredients and an optional weekly meal plan.
+2. Follow the prompts to enter the ingredients you have available, then view suggested recipes and shopping lists.
 
-### Running the web app
+For the web interface with scanning support:
 
-To try the web interface instead of the command line, install Flask (`pip install flask`) and then run:
+1. Ensure all dependencies are installed and Tesseract is available.
+2. Start the web server:
 
 ```sh
 python web_app.py
 ```
 
-Open `http://localhost:5000` in your browser, enter your ingredients and view the recipe suggestions. The web app currently supports manual text input for ingredients; file uploads for image scanning are not yet implemented.
+3. Open the provided URL in your browser (typically http://127.0.0.1:5000/). Enter ingredients manually or upload an image of an ingredient list using the “Scan ingredient list” form to see recipe suggestions based on OCR.
 
-## Extending the project
+## Extending the Project
 
-This version is intentionally simple. To turn it into a fully fledged application you could:
+This project is designed to be easy to extend. Some possible directions include:
 
-* Replace the manual ingredient input with real image recognition using an OCR or object detection library, such as [`pytesseract`](https://github.com/madmaze/pytesseract) or [TensorFlow](https://www.tensorflow.org/). This would allow the app to scan a photo of your pantry and extract ingredient names.
-* Connect the Flask web app to the image‑recognition functionality so users can upload photos of their ingredients directly from the browser.
-* Expand the recipe database. At the moment the script contains a handful of example recipes; you could load recipes from a database or an API.
-  * The repository now includes a `recipes.json` file with additional sample recipes. You can modify or extend this file to add more dishes.
-* Build a web or mobile interface. Using a framework like Flask or FastAPI (for web) or React Native (for mobile) would let you package this functionality into an easy‑to‑use user interface.
+- Improving the OCR normalisation and adding language‑specific synonym dictionaries.
+- Expanding the recipe database with more diverse cuisine types and detailed instructions.
+- Adding a nutrition API to calculate nutritional information for recipes.
+- Building a more sophisticated meal planning algorithm that considers dietary requirements, portion sizes, and variety.
+
+Pull requests are welcome!
 
 ## License
 
-This project is provided under the MIT license (see `LICENSE`). Feel free to use, modify and share it as you like.
+This project is licensed under the MIT License—see the LICENSE file for details.
