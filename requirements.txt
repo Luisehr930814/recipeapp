@@ -1,6 +1,8 @@
-# This project uses only the Python standard library, so no external
-# dependencies are required. If you extend the project with OCR
-# libraries (e.g. pytesseract), add them here.
+# This project uses only the Python standard library for the command-line version. For the web interface and OCR features, install the extra dependencies listed below.
 
-# For the optional Flask web interface, install Flask.
+# Flask is required for the optional web interface.
 flask
+
+# These packages are required for OCR-based ingredient scanning using Tesseract.
+pytesseract
+pillow
