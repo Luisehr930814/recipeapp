@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Chicken Stir Fry",
+    "ingredients": ["chicken", "soy sauce", "vegetables", "garlic", "ginger", "oil"],
+    "instructions": "Cook chicken strips in oil, then add vegetables, soy sauce, garlic and ginger. Stir fry until cooked."
+  },
+  {
+    "name": "Pancakes",
+    "ingredients": ["flour", "milk", "egg", "baking powder", "sugar", "salt"],
+    "instructions": "Mix dry ingredients, then add milk and egg. Cook on a hot griddle until golden."
+  },
+  {
+    "name": "Beef Tacos",
+    "ingredients": ["beef", "taco shells", "lettuce", "tomato", "cheese", "salsa"],
+    "instructions": "Cook beef with seasoning, fill taco shells with beef and toppings."
+  },
+  {
+    "name": "Fruit Smoothie",
+    "ingredients": ["banana", "strawberries", "yogurt", "milk", "honey"],
+    "instructions": "Blend all ingredients until smooth."
+  },
+  {
+    "name": "Veggie Soup",
+    "ingredients": ["carrots", "celery", "onion", "potatoes", "vegetable broth", "salt"],
+    "instructions": "Simmer chopped vegetables in broth until tender."
+  },
+  {
+    "name": "Pizza",
+    "ingredients": ["pizza dough", "tomato sauce", "mozzarella", "olive oil", "basil"],
+    "instructions": "Spread sauce on dough, top with cheese and basil, then bake until crust is golden."
+  },
+  {
+    "name": "Chocolate Chip Cookies",
+    "ingredients": ["flour", "sugar", "butter", "eggs", "chocolate chips", "baking soda"],
+    "instructions": "Cream butter and sugar, mix in eggs, then dry ingredients and chips. Bake spoonfuls until golden."
+  },
+  {
+    "name": "Fish Tacos",
+    "ingredients": ["fish", "taco shells", "cabbage", "lime", "salsa", "avocado"],
+    "instructions": "Cook fish with seasoning, fill shells with fish, cabbage, and toppings."
+  },
+  {
+    "name": "Chicken Caesar Salad",
+    "ingredients": ["chicken", "lettuce", "croutons", "parmesan", "Caesar dressing"],
+    "instructions": "Toss lettuce with dressing, top with grilled chicken, croutons and parmesan."
+  },
+  {
+    "name": "French Toast",
+    "ingredients": ["bread", "egg", "milk", "cinnamon", "sugar", "butter"],
+    "instructions": "Dip bread in egg mixture and fry in butter until golden on both sides."
+  }
+]

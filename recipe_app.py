@@ -13,9 +13,11 @@ library. For more details, see the README.md file in the repository.
 from __future__ import annotations
 
 import textwrap
-from dataclasses import dataclass, field
+import json
+from dataclasses import dataclass
 from typing import List, Dict, Tuple, Iterable
 import sys
+import os
 
 
 @dataclass
@@ -33,59 +35,80 @@ class Recipe:
 
 
 def load_recipes() -> List[Recipe]:
-    """Load a small library of example recipes.
-
-    In a more complete application this function could read recipes from a file
-    or database. Here we define a handful of recipes inline.
     """
-    return [
-        Recipe(
-            name="Pasta with Tomato Sauce",
-            ingredients=["pasta", "tomato", "garlic", "olive oil", "salt"],
-            instructions=textwrap.dedent(
-                """
-                1. Cook the pasta according to package instructions.
-                2. Heat olive oil in a pan and sauté minced garlic until fragrant.
-                3. Add chopped tomatoes and simmer until sauce thickens. Season with salt.
-                4. Combine the pasta with the sauce and serve warm.
-                """
-            ).strip(),
-        ),
-        Recipe(
-            name="Omelette",
-            ingredients=["eggs", "butter", "cheese", "salt", "pepper"],
-            instructions=textwrap.dedent(
-                """
-                1. Beat the eggs in a bowl and season with salt and pepper.
-                2. Melt butter in a non‑stick pan over medium heat.
-                3. Pour in the eggs and cook until just set, then sprinkle cheese over half.
-                4. Fold the omelette and slide onto a plate.
-                """
-            ).strip(),
-        ),
-        Recipe(
-            name="Fresh Salad",
-            ingredients=["lettuce", "tomato", "cucumber", "olive oil", "lemon", "salt"],
-            instructions=textwrap.dedent(
-                """
-                1. Wash and chop the lettuce, tomato and cucumber.
-                2. In a bowl, whisk together olive oil, lemon juice and salt to make a dressing.
-                3. Toss the vegetables with the dressing and serve immediately.
-                """
-            ).strip(),
-        ),
-        Recipe(
-            name="Grilled Cheese Sandwich",
-            ingredients=["bread", "cheese", "butter"],
-            instructions=textwrap.dedent(
-                """
-                1. Butter one side of each slice of bread.
-                2. Place a slice of cheese between two pieces of bread, buttered sides facing out.
-                3. Grill in a pan over medium heat until both sides are golden and the cheese is melted.
-                """
-            ).strip(),
-        ),
-    ]
+    Load a library of recipes. If a ``recipes.json`` file exists in the
+    same directory as this script, the recipes will be loaded from that
+    file. Otherwise a small built‑in collection of example recipes is used.
+    """
+    # Determine if a JSON file exists next to this module
+    here = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(here, "recipes.json")
+    recipes: List[Recipe] = []
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            for item in data:
+                # Ensure required keys exist
+                name = item.get("name")
+                ingredients = item.get("ingredients")
+                instructions = item.get("instructions", "")
+                if name and isinstance(ingredients, list):
+                    recipes.append(Recipe(name=name, ingredients=ingredients, instructions=instructions))
+        except Exception as e:
+            print(f"Warning: failed to load recipes from {json_path}: {e}")
+            recipes = []
+    if not recipes:
+        # Fallback to built‑in example recipes
+        recipes = [
+            Recipe(
+                name="Pasta with Tomato Sauce",
+                ingredients=["pasta", "tomato", "garlic", "olive oil", "salt"],
+                instructions=textwrap.dedent(
+                    """
+                    1. Cook the pasta according to package instructions.
+                    2. Heat olive oil in a pan and sauté minced garlic until fragrant.
+                    3. Add chopped tomatoes and simmer until sauce thickens. Season with salt.
+                    4. Combine the pasta with the sauce and serve warm.
+                    """
+                ).strip(),
+            ),
+            Recipe(
+                name="Omelette",
+                ingredients=["eggs", "butter", "cheese", "salt", "pepper"],
+                instructions=textwrap.dedent(
+                    """
+                    1. Beat the eggs in a bowl and season with salt and pepper.
+                    2. Melt butter in a non‑stick pan over medium heat.
+                    3. Pour in the eggs and cook until just set, then sprinkle cheese over half.
+                    4. Fold the omelette and slide onto a plate.
+                    """
+                ).strip(),
+            ),
+            Recipe(
+                name="Fresh Salad",
+                ingredients=["lettuce", "tomato", "cucumber", "olive oil", "lemon", "salt"],
+                instructions=textwrap.dedent(
+                    """
+                    1. Wash and chop the lettuce, tomato and cucumber.
+                    2. In a bowl, whisk together olive oil, lemon juice and salt to make a dressing.
+                    3. Toss the vegetables with the dressing and serve immediately.
+                    """
+                ).strip(),
+            ),
+            Recipe(
+                name="Grilled Cheese Sandwich",
+                ingredients=["bread", "cheese", "butter"],
+                instructions=textwrap.dedent(
+                    """
+                    1. Butter one side of each slice of bread.
+                    2. Place a slice of cheese between two pieces of bread, buttered sides facing out.
+                    3. Grill in a pan over medium heat until both sides are golden and the cheese is melted.
+                    """
+                ).strip(),
+            ),
+        ]
+    return recipes
 
 
 def suggest_recipes(recipes: List[Recipe], available: List[str]) -> List[Tuple[Recipe, List[str]]]:
